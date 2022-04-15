@@ -11,4 +11,14 @@
   <welcome-file-list>
     <welcome-file>/src/main/webapp/index.jsp</welcome-file>
   </welcome-file-list>
+
+<!--  <servlet>-->
+<!--    <servlet-name>Default</servlet-name>-->
+<!--    <jsp-file>/src/main/webapp/</jsp-file>-->
+<!--  </servlet>-->
+<!--  -->
+<!--  <servlet-mapping>-->
+<!--    <servlet-name>Default</servlet-name>-->
+<!--    <url-pattern>/*</url-pattern>-->
+<!--  </servlet-mapping>-->
 </web-app>
