@@ -1,33 +1,30 @@
 <!DOCTYPE html>
 <html>
-  <head>
+    <head>
     <!-- Required meta tags -->
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <!-- Bootstrap CSS v5.0.2 -->
+    <link rel="stylesheet" href="src/main/webapp/bootstrap/bootstrap.min.css"  >
+    
+    <script src="src/main/webapp/bootstrap/bootstrap.bundle.min.js" ></script>
 
-    <style><%@include file="/WEB-INF/css/style.css"%></style>
-
+    <link rel="stylesheet" href="src/main/webapp/style.css" />
 
     <title>Simple URL Shortener</title>
 
-    <link rel="icon" href="https://ik.imagekit.io/urlshortener/img/tr:q-auto/logo.png" type="image/icon type" />
-  </head>
+    <link rel="icon" href="src/main/webapp/img/logo.png" type="image/icon type" />
+    </head>
   <body>
     <!-- Start Of Header -->
     <div class="container header">
       <div class="row align-items-center">
         <div class="col-md-3">
           <div class="media">
-            <a href="" class="mx-auto d-block nav_thing">
-              <img src="https://ik.imagekit.io/urlshortener/img/tr:q-auto/big-logo.png" class="nav-img"  alt="logo"/>
-            </a>
+            <a href="" class="nav_thing"
+              ><img src="src/main/webapp/img/big-logo.png" class="nav-img mx-auto d-block"
+            /></a>
           </div>
         </div>
         <div class="col-md-6 nav_thing text-center">
@@ -37,8 +34,8 @@
           <a href="" class="nav_thing-center">Contact Us</a>
         </div>
         <div class="col-md-3 text-center account-head-dv">
-          <a href="" class="account-head">Login</a> &nbsp; &nbsp; | &nbsp;&nbsp;
-          <a href="" class="account-head">Signup</a>
+          <a href="src/login.jsp" class="account-head">Login</a> &nbsp; &nbsp; | &nbsp;&nbsp;
+          <a href="src/register.jsp" class="account-head">Sign Up</a>
         </div>
       </div>
     </div>
@@ -47,18 +44,20 @@
     <!-- Start of shortening section -->
     <div class="container">
       <div class="row align-items-center shorten-body">
-        <div class="col-md-3"></div>
-        <div class="col-md-6 text-center">
-          <h2 class="main-title">Start Shortening</h2>
-          <div class="input-group mb-3">
-            <input class="form-control" id="main-box" type="text"/>
-            <div class="input-group-append">
-              <button class="btn px-4" type="button" id="main-btn">
-                <i class="bi bi-box-arrow-right"></i>
-              </button>
-            </div>
-          </div>
-        </div>
+        <div class="col-md-3"></div>        
+          <div class="col-md-6 text-center">
+            <form action="shorten.jsp" method="post">
+              <h2 class="main-title">Start Shortening</h2>
+              <div class="input-group mb-3">
+                <input class="form-control" type="text" id="main-box" placeholder="Your link goes here" required/>
+                <div class="input-group-append">
+                  <button class="btn px-4" type="submit" id="main-btn">
+                    <i class="bi bi-box-arrow-right"></i>
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>        
         <div class="col-md-3"></div>
       </div>
     </div>
@@ -83,7 +82,7 @@
               </p>
             </div>
             <div class="col-md-6">
-              <img src="https://ik.imagekit.io/urlshortener/img/tr:q-auto/bitly.png" alt="Los Angeles" class="caro_img" />
+              <img src="src/main/webapp/img/bitly.png" alt="Los Angeles" class="caro_img" />
             </div>
           </div>
         </div>
@@ -98,7 +97,7 @@
               </p>
             </div>
             <div class="col-md-6">
-              <img src="https://ik.imagekit.io/urlshortener/img/tr:q-auto/pricing.png" alt="Los Angeles" class="caro_img" />
+              <img src="src/main/webapp/img/pricing.png" alt="Los Angeles" class="caro_img" />
             </div>
           </div>
         </div>
