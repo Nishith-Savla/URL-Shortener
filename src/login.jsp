@@ -6,15 +6,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS v5.0.2 -->
-        <link rel="stylesheet" href="main/webapp/bootstrap/bootstrap.min.css"  >
+        <link rel="stylesheet" href="src/main/webapp/bootstrap/bootstrap.min.css"  >
 
-        <script src="main/webapp/bootstrap/bootstrap.bundle.min.js" ></script>
+        <script src="src/main/webapp/bootstrap/bootstrap.bundle.min.js" ></script>
 
-    <link rel="stylesheet" href="main/webapp/style.css" />
+    <link rel="stylesheet" href="src/main/webapp/style.css" />
+
+    <script>
+        function toggle_password(inputId) {
+            const element = document.getElementById(inputId);
+            element.getAttribute("type") === "password" ? element.setAttribute("type", "text") : element.setAttribute("type", "password");
+        }
+
+        function validateForm() {
+            const email_regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+            
+            if (!email_regex.test(myForm.email.value)) {
+                alert('Please enter a valid email address.');
+                return false;
+            }
+
+            return true;
+        }
+    </script>
 
     <title>Simple URL Shortener</title>
 
-    <link rel="icon" href="main/webapp/img/logo.png" type="image/icon type" />
+    <link rel="icon" href="src/main/webapp/img/logo.png" type="image/icon type" />
     </head>
     <body>
         <!-- Start Of Header -->
@@ -23,7 +41,7 @@
           <div class="col-md-12">
             <div class="media">
                 <a href="" class="">
-                  <img src="main/webapp/img/big-logo.png" class="nav-img-login mx-auto d-block"/>
+                  <img src="src/main/webapp/img/big-logo.png" class="nav-img-login mx-auto d-block"/>
                 </a>
             </div>
           </div>
@@ -35,17 +53,21 @@
             <div class="row align-items-center">
                 <div class="col-md-4"></div>
                 <div class="col-md-4 ">
-                    <form action="">
+                    <form action="/cgi-bin/login_validate.cgi" method="post" onsubmit="return validateForm()" name="myForm">
                         <div class="my-5  px-5 login-fm">
                             <h1 class="login-header">
                                 Login
                             </h1>
 
-                            <label for="" class="form-label login-fm-lb">Email</label>
-                            <input type="email" name="email" class="form-control login-box" placeholder="Please Enter Your Email Id   " aria-describedby="email" required>
+                            <label for="email" class="form-label login-fm-lb">Email</label>
+                            <input type="email" id="email" name="email" class="form-control login-box" placeholder="Please Enter Your Email Id" aria-describedby="email" required>
                         
-                            <label for="" class="form-label login-fm-lb">Password</label>
-                            <input type="password" name="password"  class="form-control login-box" placeholder="Please Enter Your Password" aria-describedby="helpId" required>
+                            <label for="password" class="form-label login-fm-lb">Password</label>
+                            <input type="password" id="password" name="password"  class="form-control login-box" placeholder="Please Enter Your Password" aria-describedby="helpId" required>
+                            <span>
+                                <i class="fas fa-eye" style="position:absolute; right:582px; bottom:262px;"
+                                onclick="toggle_password('password')"></i>
+                            </span>
                             
                             <button type="submit" class="btn login-sub">Submit</button>
                         </div>
@@ -54,6 +76,8 @@
                 <div class="col-md-4"></div>
             </div>
         </div>
+        <script src="https://kit.fontawesome.com/f1e397c55b.js" crossorigin="anonymous"></script>
+        
       <!-- End of Login Form -->
     </body>
 </html>
