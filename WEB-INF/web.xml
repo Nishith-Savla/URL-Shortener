@@ -12,13 +12,23 @@
     <welcome-file>/src/index.jsp</welcome-file>
   </welcome-file-list>
 
-<!--  <servlet>-->
-<!--    <servlet-name>Default</servlet-name>-->
-<!--    <jsp-file>/src/</jsp-file>-->
-<!--  </servlet>-->
-<!--  -->
-<!--  <servlet-mapping>-->
-<!--    <servlet-name>Default</servlet-name>-->
-<!--    <url-pattern>/*</url-pattern>-->
-<!--  </servlet-mapping>-->
+  <servlet>
+    <servlet-name>Shorten</servlet-name>
+    <jsp-file>/src/shorten.jsp</jsp-file>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>Shorten</servlet-name>
+    <url-pattern>/shorten.jsp</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>edit</servlet-name>
+    <jsp-file>/src/edit.jsp</jsp-file>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>edit</servlet-name>
+    <url-pattern>/edit.jsp</url-pattern>
+  </servlet-mapping>
 </web-app>

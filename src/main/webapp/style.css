@@ -62,7 +62,7 @@ body {
   text-indent: 0.8vw;
   border-radius: 5vw 0 0 5vw;
 }
-#main-btn {
+#main-btn, #save-btn {
   height: 8vh;
   background-color: #8946a6;
   color: white;
@@ -159,4 +159,67 @@ body {
 .login-box
 {
   font-size: 3vh;
+}
+
+
+.og-link
+{
+  color: #b762c1;
+  font-family: "Barlow Condensed";
+  font-weight: bold;
+  font-size: 3.2vh;
+  overflow: hidden;
+  background-color: white;
+  padding: 1vw;
+  border-radius: 2vw;
+  overflow-x: hidden;
+}
+#save
+{
+  margin-right: 0.3vw;
+  margin-left: 0;
+}
+#save-btn
+{
+
+  margin-left: 0;
+
+}
+.edit-btn, .edit-btn:hover
+{
+  height: 8vh;
+  background-color: #8946a6;
+  color: white;
+  font-size: 4vh;
+  display: inline-flex;
+  align-items: center;
+  margin: 0;
+  border-right: 0.3vw solid white;
+
+}
+.new-link
+{
+  background-color: white;
+  border-radius: 5vw 0 0 5vw;
+  font-size: 4vh;
+  text-indent: 1vw;
+  overflow: hidden;
+  color: #b762c1;
+  font-family: "Barlow Condensed";
+  font-weight: bold;
+  font-size: 3.2vh;
+  height: 8vh;
+  padding: 0;
+}
+#editbox
+{
+  background-color: white;
+  font-size: 4vh;
+  text-indent: 1vw;
+  overflow: hidden;
+  color: #b762c1;
+  font-family: "Barlow Condensed";
+  font-weight: bold;
+  font-size: 3.2vh;
+  height: 8vh;
 }
