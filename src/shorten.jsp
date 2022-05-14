@@ -32,10 +32,7 @@
             </div>
           </div>
           <div class="col-md-6 nav_thing text-center">
-            <a href="" class="nav_thing-center">Why Us?</a>
-            <a href="" class="nav_thing-center">Custom URL</a>
-            <a href="" class="nav_thing-center">Pricing</a>
-            <a href="" class="nav_thing-center">Contact Us</a>
+
           </div>
           <div class="col-md-3 text-center account-head-dv">
             <a href="login.jsp" class="account-head">Login</a> &nbsp; &nbsp; | &nbsp;&nbsp;
@@ -58,19 +55,11 @@
                           <span class="my-3 d-block new-link-title" id="new-link-title"><%= request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath() + "/s/" %></span>
                       
                       </span>
-                      <input class="form-control" type="text" id="editbox"  value='temp' <% if(request.getParameter("edit") == null){%>readonly <% }%> required/>
+                      <input class="form-control" type="text" id="editbox"  value='temp'  required/>
                       <button class="btn px-2 edit-btn" title="copy" onclick='copy_to_clipboard("<%= request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath() + "/s/" %>","editbox")'>
                         <i class="bi bi-files"></i>
                       </button>
-                      <% if(request.getParameter("edit") == null)
-                      {
-                          %>
 
-                      <a class="btn px-2 edit-btn" title="edit" href='shorten.jsp?edit=true&main=<%= request.getParameter("main") %>'>
-                        <i class="bi bi-pencil-square"></i>
-                      </a>
-
-                        <% } %>
                       <div class="input-group-append">
                         <button class="btn px-3" id="save-btn" title="save">
                               <i class="bi bi-box-arrow-right"></i>
