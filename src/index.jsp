@@ -49,7 +49,7 @@
             <form action="shorten.jsp" method="post">
               <h2 class="main-title">Start Shortening</h2>
               <div class="input-group mb-3">
-                <input class="form-control" type="text" id="main-box" placeholder="Your link goes here" required/>
+                <input class="form-control" type="text" id="main-box" placeholder="Your link goes here" name="main" required/>
                 <div class="input-group-append">
                   <button class="btn px-4" type="submit" id="main-btn">
                     <i class="bi bi-box-arrow-right"></i>

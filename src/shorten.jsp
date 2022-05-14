@@ -18,6 +18,7 @@
       <title>Simple URL Shortener</title>
 
       <link rel="icon" href="src/main/webapp/img/logo.png" type="image/icon type" />
+      <script src="src/main/webapp/main.js" ></script>
   </head>
   <body>
       <!-- Start Of Header -->
@@ -48,30 +49,48 @@
               <div class="col-md-3"></div>
               <div class="col-md-6">
                  <h2 class="main-title">Original link</h2>
-                 <div class="og-link mb-5">file:///C:/Users/Kenne/Documents/kenneth/sem%206/perl/proj/urlshortner/shorten.html</div>
+                 <div class="og-link mb-5"><%= request.getParameter("main") %></div>
                  
                   <div class="mb-3">
                     <h2 class="main-title">Shortened Link</h2>
-                      <div class="input-group new-div mb-3">
-                        <span class=" form-control new-link mb-3">
-                          <span class="my-2 d-block">file:///C:/Users/Kenne/Documents/kenneth/sem%206/perl/proj/urlshortner/shorten.html</span>
-                        
-                        </span>
-                        <button class="btn px-2 edit-btn" title="copy"> 
-                          <i class="bi bi-files"></i>
-                        </button>
-                        <a class="btn px-2 edit-btn" title="edit" href="edit.jsp">
-                          <i class="bi bi-pencil-square"></i>
-                        </a>
-                        
-                        <div class="input-group-append">
-                          <button class="btn px-3" id="save-btn" title="save"> 
-                            <span id="save"> Save </span><i class="bi bi-box-arrow-right"></i>
-                          </button>
-                        </div>
-                      </div>
-
+                    <div class="input-group new-div">
+                      <span class="form-control new-link text-center">
+                          <span class="my-3 d-block new-link-title" id="new-link-title"><%= request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath() + "/s/" %></span>
                       
+                      </span>
+                      <input class="form-control" type="text" id="editbox"  value='temp' <% if(request.getParameter("edit") == null){%>readonly <% }%> required/>
+                      <button class="btn px-2 edit-btn" title="copy" onclick='copy_to_clipboard("<%= request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath() + "/s/" %>","editbox")'>
+                        <i class="bi bi-files"></i>
+                      </button>
+                      <% if(request.getParameter("edit") == null)
+                      {
+                          %>
+
+                      <a class="btn px-2 edit-btn" title="edit" href='shorten.jsp?edit=true&main=<%= request.getParameter("main") %>'>
+                        <i class="bi bi-pencil-square"></i>
+                      </a>
+
+                        <% } %>
+                      <div class="input-group-append">
+                        <button class="btn px-3" id="save-btn" title="save">
+                              <i class="bi bi-box-arrow-right"></i>
+                        </button>
+                      </div>
+                    </div>
+                      <%
+                          Boolean linkIsInUse = false;
+                          if(linkIsInUse)
+                          {
+                      %>
+                      <div class="alert alert-warning my-3" role="alert">
+                          The link you have selected is already in use!!
+                      </div>
+                      <script>
+                            in_use_alert()
+                      </script>
+                      <%
+                          }
+                      %>
                   </div>
               </div>
               <div class="col-md-3"></div>
