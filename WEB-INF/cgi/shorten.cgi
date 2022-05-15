@@ -28,7 +28,8 @@ if (!($url =~ $urlregex)) {
 }
 $url =~ s|/$||;
 
-my $uniqueURL = cookie("EMAIL") . ":" . $url;
+my $email = cookie("EMAIL");
+my $uniqueURL = $email . ":" . $url;
 my $crc = crc32($uniqueURL);
 my $date = DateTime->now;
 
@@ -46,12 +47,12 @@ or die "Can't execute statement $DBI::errstr";
 $select_query->finish();
 
 if ($rows_selected == 0) {
-    my $insert_query = $con->prepare("INSERT INTO urls VALUES(?, ?, ?)");
-    my $result = $insert_query->execute($crc, $url, $date);
+    my $insert_query = $con->prepare("INSERT INTO urls VALUES(?, ?, ?, ?)");
+    my $result = $insert_query->execute($crc, $url, $date, $email);
     $insert_query->finish();
 }
 
-print get_current_domain . "/s/" . $crc;
+print get_current_domain . "/URL-Shortener" . "/s/" . $crc;
 
 print end_html;
 $con->disconnect;

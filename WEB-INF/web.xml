@@ -42,6 +42,17 @@
    <url-pattern>/register</url-pattern>
  </servlet-mapping>
 
+ <servlet>
+    <servlet-name>list</servlet-name>
+    <jsp-file>/src/listUrls.jsp</jsp-file>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>list</servlet-name>
+    <url-pattern>/list</url-pattern>
+  </servlet-mapping>
+
+
 
 
 <!--  <servlet>-->

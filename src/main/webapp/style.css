@@ -160,3 +160,40 @@ body {
 {
   font-size: 3vh;
 }
+
+.url-list-body
+{
+  background-color: white;
+  border-radius: 4vh;
+}
+.url-list-outa
+{
+  min-height: 80vh;
+  background-image: url("img/back.png");
+}
+.list-table
+{
+  color: #b762c1;
+  font-family: "Barlow Condensed";
+  font-weight: bold;
+  font-size: 3.2vh;
+  overflow: hidden;
+}
+.list-btn, .list-btn:hover
+{
+  background-color: #8946a6;
+  color: white;
+  align-items: center;
+  font-weight: bold;
+}
+.table-cell
+{
+  overflow: hidden;
+  max-width: 17vw;
+  white-space: nowrap;
+  padding: 1vw !important;
+}
+.shortened-cell
+{
+  max-width: 20vw;
+}
