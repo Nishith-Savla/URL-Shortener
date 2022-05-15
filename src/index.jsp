@@ -53,13 +53,13 @@
 				if(!(login))
 				{
 			%>
-			<a href="src/login.jsp" class="account-head">Login</a> &nbsp; &nbsp; | &nbsp;&nbsp;
-			<a href="src/register.jsp" class="account-head">Sign Up</a>
+			<a href="login" class="account-head">Login</a> &nbsp; &nbsp; | &nbsp;&nbsp;
+			<a href="register" class="account-head">Sign Up</a>
 			<%
 				}
 				else {
-					out.println("<a href=\"src/myaccount.jsp\" class=\"account-head\">My Account</a> &nbsp; &nbsp; | &nbsp;&nbsp;");
-					out.println("<a href=\"src/logout.jsp\" class=\"account-head\"> Logout</a>");
+					out.println("<a href=\"myaccount\" class=\"account-head\">My Account</a> &nbsp; &nbsp; | &nbsp;&nbsp;");
+					out.println("<a href=\"logout\" class=\"account-head\"> Logout</a>");
 				}
 			%>
 
