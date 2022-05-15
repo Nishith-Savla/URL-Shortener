@@ -15,6 +15,7 @@ body {
   margin-left: 0;
   margin-right: 0;
   max-width: initial;
+  height: 14vh;
 }
 
 .container {
@@ -102,6 +103,7 @@ body {
   color: white;
   font-family: "Barlow Condensed";
   font-size: 2.4vh;
+  text-decoration: none;
 }
 .foot-t {
   color: #ffcddd;
@@ -227,4 +229,59 @@ body {
 .new-link-title
 {
   font-size: 1.4vw;
+}
+.head-boda
+{
+  border-bottom: 0.5vh solid #ea99d5;
+}
+.analytics-body
+{
+  height: 100vh;
+  background-color: #ffcddd;
+  background-image: url("img/back.png");
+}
+.left-menu
+{
+  background-color: white;
+  height: 100vh;
+  
+}
+.nav-link
+{
+  font-family: "Bebas Neue";
+  font-size: 3vh;
+  color: #b762c1;
+}
+.nav-link:hover
+{
+  color: #ea99d5;
+}
+.nav-link.active
+{
+  color: white;
+  background-color: #8946a6 !important;
+  
+}
+.charts-body
+{
+  background-color: white;
+  border-radius: 5vh;
+  height: 90vh;
+}
+.chart-container
+{
+  position: relative;
+  height: 35vh;
+}
+.chart-header
+{
+  font-family: "Bebas Neue";
+  font-size: 3vh;
+  color: #8946a6;
+}
+.chart-container-visits
+{
+  position: relative;
+  height: 35vh;
+  
 }

@@ -31,4 +31,14 @@
     <servlet-name>edit</servlet-name>
     <url-pattern>/edit.jsp</url-pattern>
   </servlet-mapping>
+
+  <servlet>
+    <servlet-name>analytics</servlet-name>
+    <jsp-file>/src/analytics.jsp</jsp-file>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>analytics</servlet-name>
+    <url-pattern>/analytics.jsp</url-pattern>
+  </servlet-mapping>
 </web-app>
