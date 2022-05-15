@@ -1,61 +1,75 @@
 <%
-  Cookie cookie = null;
-  Cookie[] cookies = null;
-  boolean login =false;
-  cookies = request.getCookies();
-  if( cookies != null )
-  {
-
-    for (int i = 0; i < cookies.length; i++) {
-      cookie = cookies[i];
-
-      if (cookie.getName().equals("EMAIL") && cookie.getValue() != "") {
-        login = true;
-
-        break;
-      }
-    }
-  }
+	Cookie cookie = null;
+	Cookie[] cookies = null;
+	boolean login =false;
+	cookies = request.getCookies();
+	if( cookies != null )
+	{
+		for (int i = 0; i < cookies.length; i++) {
+			cookie = cookies[i];
+			if (cookie.getName().equals("EMAIL") && cookie.getValue() != "") {
+				login = true;
+				break;
+			}
+		}
+	}
 %>
 <!DOCTYPE html>
 <html>
-	<head>
-		<!-- Required meta tags -->
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<head>
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-		<!-- Bootstrap CSS v5.0.2 -->
-		<link rel="stylesheet" href="src/main/webapp/bootstrap/bootstrap.min.css" />
+	<!-- Bootstrap CSS v5.0.2 -->
+	<link rel="stylesheet" href="src/main/webapp/bootstrap/bootstrap.min.css"  >
 
-		<script src="src/main/webapp/bootstrap/bootstrap.bundle.min.js"></script>
+	<script src="src/main/webapp/bootstrap/bootstrap.bundle.min.js" ></script>
 
-		<link rel="stylesheet" href="src/main/webapp/style.css" />
-		<title>Simple URL Shortener</title>
-		<link rel="icon" href="src/main/webapp/img/logo.png" type="image/icon type" />
-	</head>
-	<body>
-		<!-- Start Of Header -->
-		<div class="container header">
-			<div class="row align-items-center">
-				<div class="col-md-3">
-					<div class="media">
-						<a href="" class="nav_thing"
-							><img src="src/main/webapp/img/big-logo.png" class="nav-img mx-auto d-block"
-						/></a>
-					</div>
-				</div>
-				<div class="col-md-6 nav_thing text-center">
-					<a href="" class="nav_thing-center">Why Us?</a>
-					<a href="" class="nav_thing-center">Custom URL</a>
-					<a href="" class="nav_thing-center">Pricing</a>
-					<a href="" class="nav_thing-center">Contact Us</a>
-				</div>
-				<div class="col-md-3 text-center account-head-dv">
-					<a href="login" class="account-head">Login</a> &nbsp; &nbsp; | &nbsp;&nbsp;
-					<a href="register" class="account-head">Sign Up</a>
-				</div>
+	<link rel="stylesheet" href="src/main/webapp/style.css" />
+
+	<title>Simple URL Shortener</title>
+
+	<link rel="icon" href="src/main/webapp/img/logo.png" type="image/icon type" />
+</head>
+<body>
+<!-- Start Of Header -->
+<div class="container header">
+	<div class="row align-items-center">
+		<div class="col-md-3">
+			<div class="media">
+				<a href="" class="nav_thing"
+				><img src="src/main/webapp/img/big-logo.png" class="nav-img mx-auto d-block"
+				/></a>
 			</div>
 		</div>
+		<div class="col-md-6 nav_thing text-center">
+
+		</div>
+
+		<div class="col-md-3 text-center account-head-dv">
+
+			<%
+				if(!(login))
+				{
+			%>
+			<a href="src/login.jsp" class="account-head">Login</a> &nbsp; &nbsp; | &nbsp;&nbsp;
+			<a href="src/register.jsp" class="account-head">Sign Up</a>
+			<%
+				}
+				else {
+					out.println("<a href=\"src/myaccount.jsp\" class=\"account-head\">My Account</a> &nbsp; &nbsp; | &nbsp;&nbsp;");
+					out.println("<a href=\"src/logout.jsp\" class=\"account-head\"> Logout</a>");
+				}
+			%>
+
+
+
+
+
+		</div>
+	</div>
+</div>
 		<!-- End Of Header -->
 		<!-- Start Of Main Body -->
 		<!-- Start of shortening section -->

@@ -1,5 +1,4 @@
-#!/usr/bin/perl
-#!c:\xampp\perl\bin\perl.exe
+#!C:\xampp\perl\bin\perl.exe
 
 use CGI ':standard';
 use CGI::Cookie;
@@ -9,7 +8,6 @@ use strict;
 
 my $email = param('email');
 my $password = param('password');
-# print $email, $password;
 
 # Encrypt a password 
 sub encrypt_password {

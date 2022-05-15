@@ -1,5 +1,4 @@
-#!/usr/bin/perl
-#!c:\xampp\perl\bin\perl.exe
+#!C:\xampp\perl\bin\perl.exe
 
 use CGI ':standard';
 use CGI::Cookie;
