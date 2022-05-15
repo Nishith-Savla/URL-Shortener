@@ -1,3 +1,22 @@
+<%
+  Cookie cookie = null;
+  Cookie[] cookies = null;
+  boolean login =false;
+  cookies = request.getCookies();
+  if( cookies != null )
+  {
+
+    for (int i = 0; i < cookies.length; i++) {
+      cookie = cookies[i];
+
+      if (cookie.getName().equals("EMAIL") && cookie.getValue() != "") {
+        login = true;
+
+        break;
+      }
+    }
+  }
+%>
 <!DOCTYPE html>
 <html>
   <head>
@@ -35,8 +54,25 @@
 
           </div>
           <div class="col-md-3 text-center account-head-dv">
-            <a href="login.jsp" class="account-head">Login</a> &nbsp; &nbsp; | &nbsp;&nbsp;
-            <a href="register.jsp" class="account-head">Sign Up</a>
+            
+          <%
+          if(!(login))
+          {
+        %>
+          <a href="src/login.jsp" class="account-head">Login</a> &nbsp; &nbsp; | &nbsp;&nbsp;
+          <a href="src/register.jsp" class="account-head">Sign Up</a>
+        <%
+          }
+          else {
+            out.println("<a href=\"src/myaccount.jsp\" class=\"account-head\">My Account</a> &nbsp; &nbsp; | &nbsp;&nbsp;");
+            out.println("<a href=\"src/logout.jsp\" class=\"account-head\"> Logout</a>");
+          }
+        %>
+
+
+
+
+
           </div>
         </div>
       </div>
