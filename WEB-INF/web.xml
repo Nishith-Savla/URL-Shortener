@@ -41,4 +41,14 @@
     <servlet-name>analytics</servlet-name>
     <url-pattern>/analytics.jsp</url-pattern>
   </servlet-mapping>
+
+ <servlet>
+   <servlet-name>Redirect</servlet-name>
+   <jsp-file>/src/redirect.jsp</jsp-file>
+ </servlet>
+
+ <servlet-mapping>
+   <servlet-name>Redirect</servlet-name>
+   <url-pattern>/s/*</url-pattern>
+ </servlet-mapping>
 </web-app>
