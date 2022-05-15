@@ -56,6 +56,7 @@ function getAnalytics() {
         analytics.browser = platform.name;
         analytics.os = platform.os.family;
         analytics.ip = data.ip;
+        analytics.timestamp = new Date(new Date().toUTCString().slice(0, -3)).getTime();
 
         document.getElementById("analytics").value = JSON.stringify(analytics);
         document.querySelector("form").submit();
@@ -70,17 +71,17 @@ function getAnalytics() {
 </form>
 </body>
 </html>
-
             <%
             } else {
                 JSONObject nodeRoot  = new JSONObject(request.getParameter("analytics"));
-                final PreparedStatement analyticsPstmt = connection.prepareStatement("INSERT INTO analytics(shortened_url, ip, continent, country, browser, os) VALUES(?, ?, ?, ?, ?, ?);");
+                final PreparedStatement analyticsPstmt = connection.prepareStatement("INSERT INTO analytics(shortened_url, ip, continent, country, browser, os, timestamp) VALUES(?, ?, ?, ?, ?, ?, ?);");
                 analyticsPstmt.setString(1, shortened);
                 analyticsPstmt.setString(2, nodeRoot.getString("ip"));
                 analyticsPstmt.setString(3, nodeRoot.getString("continent"));
                 analyticsPstmt.setString(4, nodeRoot.getString("country"));
                 analyticsPstmt.setString(5, nodeRoot.getString("browser"));
                 analyticsPstmt.setString(6, nodeRoot.getString("os"));
+                analyticsPstmt.setTimestamp(7, new Timestamp(nodeRoot.getLong("timestamp")));
                 analyticsPstmt.executeUpdate();
 
                 response.sendRedirect(rs.getString("original"));
