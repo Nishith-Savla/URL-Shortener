@@ -56,8 +56,8 @@
             <div class="url-list-body px-5 py-3">
             <%
                 // declaring variables
-                final String DB_USERNAME = "root";
-                final String DB_PASSWORD = "password";
+                final String DB_USERNAME = System.getenv("MYSQL_USERNAME");
+                final String DB_PASSWORD = System.getenv("MYSQL_PASSWORD");
                 final String jdbcUrl = "jdbc:mysql://localhost:3306/urlshortener";
                 PreparedStatement pstmt;
                 ResultSet rs;

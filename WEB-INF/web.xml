@@ -81,17 +81,4 @@
     <servlet-name>list</servlet-name>
     <url-pattern>/list</url-pattern>
   </servlet-mapping>
-
-
-
-
-<!--  <servlet>-->
-<!--    <servlet-name>Default</servlet-name>-->
-<!--    <jsp-file>/src/</jsp-file>-->
-<!--  </servlet>-->
-<!--  -->
-<!--  <servlet-mapping>-->
-<!--    <servlet-name>Default</servlet-name>-->
-<!--    <url-pattern>/*</url-pattern>-->
-<!--  </servlet-mapping>-->
 </web-app>
