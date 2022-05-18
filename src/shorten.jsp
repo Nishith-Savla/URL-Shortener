@@ -1,21 +1,70 @@
+<%@ page contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" %>
+<%@ page import="java.sql.*" %>
 <%
-  Cookie cookie = null;
-  Cookie[] cookies = null;
-  boolean login =false;
-  cookies = request.getCookies();
-  if( cookies != null )
-  {
-
-    for (int i = 0; i < cookies.length; i++) {
-      cookie = cookies[i];
-
-      if (cookie.getName().equals("EMAIL") && cookie.getValue() != "") {
-        login = true;
-
-        break;
-      }
+    Boolean linkIsInUse = false;
+    Boolean samelink = false;
+    String ermsg = "";
+    boolean login = false;
+    final Cookie[] cookies = request.getCookies();
+    if (cookies != null) {
+        for (Cookie cookie : cookies) {
+            if (cookie.getName().equals("EMAIL") && !cookie.getValue().equals("")) {
+                login = true;
+                break;
+            }
+        }
     }
-  }
+%>
+<%
+    if(!(request.getParameterMap().containsKey("shortenedURL") && request.getParameterMap().containsKey("originalURL")))
+    {
+        response.sendRedirect("/URL-Shortener");
+    }
+    if(request.getParameterMap().containsKey("edited") && !request.getParameter("editedShortenedURL").equals("")) {
+        if (request.getParameter("edited").equals("true")) {
+            final String DB_USERNAME = System.getenv("MYSQL_USERNAME");
+            final String DB_PASSWORD = System.getenv("MYSQL_PASSWORD");
+            final String jdbcUrl = "jdbc:mysql://localhost:3306/urlshortener";
+            String shortenedURL = request.getParameter("shortenedURL");
+            String editedShortenedURL = request.getParameter("editedShortenedURL");
+            String originalURL = request.getParameter("originalURL");
+
+            if(shortenedURL.equals(editedShortenedURL))
+            {
+                samelink = true;
+                ermsg = "Please change the URL in order to edit!!";
+            }
+            else
+            {
+                Class.forName("com.mysql.cj.jdbc.Driver");
+                try (Connection connection = DriverManager.getConnection(jdbcUrl, DB_USERNAME, DB_PASSWORD)) {
+                    final PreparedStatement checkIfExists = connection.prepareStatement("SELECT * FROM urls WHERE shortened = ?");
+                    checkIfExists.setString(1, editedShortenedURL);
+                    final ResultSet rs = checkIfExists.executeQuery();
+                    if (!rs.isBeforeFirst() ) {
+                        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+                        final PreparedStatement updateURL = connection.prepareStatement("UPDATE `urls` SET `shortened` = ?, `updated_at` = ? WHERE `urls`.`shortened` = ?");
+                        updateURL.setString(1, editedShortenedURL);
+                        updateURL.setString(2, timestamp.toString());
+                        updateURL.setString(3, shortenedURL);
+                        updateURL.executeUpdate();
+                        response.sendRedirect("list");
+                    }
+                    else
+                    {
+                        linkIsInUse = true;
+                        ermsg ="The link you have selected is already in use!!";
+                    }
+                }
+                catch (SQLException e) {
+                    out.println("Error: " + e.getMessage());
+                }
+
+            }
+
+        }
+    }
+
 %>
 <!DOCTYPE html>
 <html>
@@ -37,7 +86,8 @@
       <title>Simple URL Shortener</title>
 
       <link rel="icon" href="src/main/webapp/img/logo.png" type="image/icon type" />
-      <script src="src/main/webapp/main.js" ></script>
+<%--      <script src="src/main/webapp/main.js" ></script>--%>
+      <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   </head>
   <body>
       <!-- Start Of Header -->
@@ -82,37 +132,43 @@
               <div class="col-md-3"></div>
               <div class="col-md-6">
                  <h2 class="main-title">Original link</h2>
-                 <div class="og-link mb-5"><%= request.getParameter("main") %></div>
+                 <div class="og-link mb-5"><%= request.getParameter("originalURL") %></div>
                  
                   <div class="mb-3">
                     <h2 class="main-title">Shortened Link</h2>
+                      <form action="shorten" method="post">
                     <div class="input-group new-div">
                       <span class="form-control new-link text-center">
                           <span class="my-3 d-block new-link-title" id="new-link-title"><%= request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath() + "/s/" %></span>
                       
                       </span>
-                      <input class="form-control" type="text" id="editbox"  value='temp'  required/>
+                      <input class="form-control" type="text" id="editbox"  name="editedShortenedURL" value='<%= request.getParameter("shortenedURL") %>'  required/>
                       <button class="btn px-2 edit-btn" title="copy" onclick='copy_to_clipboard("<%= request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath() + "/s/" %>","editbox")'>
                         <i class="bi bi-files"></i>
                       </button>
 
+                        <input type="hidden" name="originalURL" value="<%= request.getParameter("originalURL") %>">
+                        <input type="hidden" name="shortenedURL" value="<%= request.getParameter("shortenedURL") %>">
+                        <input type="hidden" name="edited" value="true">
+
                       <div class="input-group-append">
-                        <button class="btn px-3" id="save-btn" title="save">
-                              <i class="bi bi-box-arrow-right"></i>
+                        <button class="btn px-3" id="save-btn" type="submit" title="save">
+                            <i class="bi bi-pencil-fill"></i>
                         </button>
                       </div>
                     </div>
+                      </form>
                       <%
-                          Boolean linkIsInUse = false;
-                          if(linkIsInUse)
+
+                          if(linkIsInUse || samelink )
                           {
                       %>
                       <div class="alert alert-warning my-3" role="alert">
-                          The link you have selected is already in use!!
+                        <%
+                           out.println(ermsg);
+                        %>
                       </div>
-                      <script>
-                            in_use_alert()
-                      </script>
+
                       <%
                           }
                       %>
@@ -174,6 +230,20 @@
             </div>
             </div>
         </div>
+
+      <script>
+          function copy_to_clipboard(prefix,eleid) {
+              const copyText = document.getElementById(eleid);
+              const text = prefix+copyText.value;
+              /* Copy the text inside the text field */
+              navigator.clipboard.writeText(text);
+              Swal.fire({
+                  title: 'Copied to clipboard!',
+                  text,
+                  icon: 'success',
+              });
+          }
+      </script>
         <!-- End of Footer -->
   </body>
 </html>

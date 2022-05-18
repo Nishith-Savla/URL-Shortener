@@ -132,7 +132,8 @@
                                         <td class="table-cell px-0 actions actions-cell">
                                             <button class="btn list-btn"><i class="bi bi-files" onclick="copy_to_clipboard(document.getElementById('shortened-<%= j %>'))" ></i></button>
                                             <form action="shorten" method="post" style="display: inline;">
-                                                <input type="hidden" name="delete-url" value="<%=rs.getString("shortened")%>">
+                                                <input type="hidden" name="originalURL" value="<%=rs.getString("original")%>">
+                                                <input type="hidden" name="shortenedURL" value="<%=rs.getString("shortened")%>">
                                                 <button type="submit" class="btn list-btn"><i class="bi bi-pencil-square"></i></button>
                                             </form>
                                             <form action="list" method="post" style="display: inline;">

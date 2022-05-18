@@ -38,21 +38,56 @@ $crc = sprintf("%x", $crc); # Convert int to hex
 my $con = DBI->connect('DBI:mysql:urlshortener:localhost', $ENV{'MYSQL_USERNAME'}, $ENV{'MYSQL_PASSWORD'}) 
 or die "Can't connect to database $DBI::errstr";
 
-my $select_query = $con->prepare("SELECT shortened FROM urls WHERE shortened = ?")
-or die "Can't prepare statement $DBI::errstr";
+my $select_query_og = $con->prepare("SELECT shortened, original FROM urls WHERE original = ? AND user_email = ?")
+    or die "Can't prepare statement $DBI::errstr";
 
-my $rows_selected = $select_query->execute($crc)
-or die "Can't execute statement $DBI::errstr";
+my $rows_selected_og = $select_query_og->execute($url, $email)
+    or die "Can't execute statement $DBI::errstr";
 
-$select_query->finish();
 
-if ($rows_selected == 0) {
-    my $insert_query = $con->prepare("INSERT INTO urls VALUES(?, ?, ?, ?)");
-    my $result = $insert_query->execute($crc, $url, $date, $email);
-    $insert_query->finish();
+
+if ($rows_selected_og > 0) {
+    my ($shortened, $original) = $select_query_og->fetchrow();
+    $select_query_og->finish();
+
+    print("<form id=\"miForm\" method=\"post\" action=\"\\URL-Shortener\\shorten\"><input type=\"hidden\" name=\"shortenedURL\" value=" . $shortened . ">");
+    print("<input type=\"hidden\" name=\"originalURL\" value=" . $original . "></form>");
+    my $temp_var = <<"EOF";
+<script type="text/javascript">
+    document.getElementById('miForm').submit();
+</script>
+
+EOF
+    print($temp_var);
+
+    print end_html;
 }
+else {
+    $select_query_og->finish();
+    my $select_query = $con->prepare("SELECT shortened FROM urls WHERE shortened = ?")
+        or die "Can't prepare statement $DBI::errstr";
 
-print get_current_domain . "/URL-Shortener" . "/s/" . $crc;
+    my $rows_selected = $select_query->execute($crc)
+        or die "Can't execute statement $DBI::errstr";
 
-print end_html;
+    $select_query->finish();
+
+    if ($rows_selected == 0) {
+        my $insert_query = $con->prepare("INSERT INTO urls VALUES(?, ?, ?, ?)");
+        my $result = $insert_query->execute($crc, $url, $date, $email);
+        $insert_query->finish();
+    }
+
+    # print get_current_domain . "/URL-Shortener" . "/s/" . $crc;
+    print("<form id=\"myForm\" method=\"post\" action=\"\\URL-Shortener\\shorten\"><input type=\"hidden\" name=\"shortenedURL\" value=" . $crc . ">");
+    print("<input type=\"hidden\" name=\"originalURL\" value=" . $url . "></form>");
+    my $temp_var = <<"EOF";
+<script type="text/javascript">
+    document.getElementById('myForm').submit();
+</script>
+
+EOF
+    print($temp_var);
+    print end_html;
+}
 $con->disconnect;
