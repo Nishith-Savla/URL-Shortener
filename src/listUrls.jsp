@@ -38,8 +38,8 @@
             <a href="" class="nav_thing-center">Contact Us</a>
         </div>
         <div class="col-md-3 text-center account-head-dv">
-            <a href="src/login.jsp" class="account-head">Login</a> &nbsp; &nbsp; | &nbsp;&nbsp;
-            <a href="src/register.jsp" class="account-head">Sign Up</a>
+            <a href="login" class="account-head">Login</a> &nbsp; &nbsp; | &nbsp;&nbsp;
+            <a href="register" class="account-head">Sign Up</a>
         </div>
     </div>
 </div>

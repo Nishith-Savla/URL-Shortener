@@ -51,8 +51,8 @@
         <div class="col-md-3 text-center account-head-dv">
             <%
                 if (!login) { %>
-            <a href="src/login.jsp" class="account-head">Login</a> &nbsp; &nbsp; | &nbsp;&nbsp;
-            <a href="src/register.jsp" class="account-head">Sign Up</a>
+            <a href="login" class="account-head">Login</a> &nbsp; &nbsp; | &nbsp;&nbsp;
+            <a href="register" class="account-head">Sign Up</a>
             <%
             } else { %>
             <a href="myaccount" class="account-head">My Account</a> &nbsp; &nbsp; | &nbsp;&nbsp;

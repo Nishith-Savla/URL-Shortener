@@ -19,7 +19,7 @@
 
   <servlet-mapping>
     <servlet-name>Shorten</servlet-name>
-    <url-pattern>/shorten.jsp</url-pattern>
+    <url-pattern>/shorten</url-pattern>
   </servlet-mapping>
 
   <servlet>
@@ -29,7 +29,7 @@
 
   <servlet-mapping>
     <servlet-name>edit</servlet-name>
-    <url-pattern>/edit.jsp</url-pattern>
+    <url-pattern>/edit</url-pattern>
   </servlet-mapping>
 
   <servlet>
@@ -39,7 +39,7 @@
 
   <servlet-mapping>
     <servlet-name>analytics</servlet-name>
-    <url-pattern>/analytics.jsp</url-pattern>
+    <url-pattern>/analytics</url-pattern>
   </servlet-mapping>
 
  <servlet>
