@@ -1,8 +1,9 @@
 <%@ page contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" %>
 <%@ page import="java.sql.*" %>
+<%@ page import="java.time.*" %>
 <%
-    Boolean linkIsInUse = false;
-    Boolean samelink = false;
+    boolean linkIsInUse = false;
+    boolean samelink = false;
     String ermsg = "";
     boolean login = false;
     final Cookie[] cookies = request.getCookies();
@@ -27,7 +28,6 @@
             final String jdbcUrl = "jdbc:mysql://localhost:3306/urlshortener";
             String shortenedURL = request.getParameter("shortenedURL");
             String editedShortenedURL = request.getParameter("editedShortenedURL");
-            String originalURL = request.getParameter("originalURL");
 
             if(shortenedURL.equals(editedShortenedURL))
             {
@@ -42,12 +42,15 @@
                     checkIfExists.setString(1, editedShortenedURL);
                     final ResultSet rs = checkIfExists.executeQuery();
                     if (!rs.isBeforeFirst() ) {
-                        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-                        final PreparedStatement updateURL = connection.prepareStatement("UPDATE `urls` SET `shortened` = ?, `updated_at` = ? WHERE `urls`.`shortened` = ?");
-                        updateURL.setString(1, editedShortenedURL);
-                        updateURL.setString(2, timestamp.toString());
-                        updateURL.setString(3, shortenedURL);
-                        updateURL.executeUpdate();
+                        ZonedDateTime zdt = ZonedDateTime.of(LocalDateTime.now(), ZoneId.systemDefault());
+                        ZonedDateTime gmt = zdt.withZoneSameInstant(ZoneId.of("GMT"));
+
+                        final PreparedStatement updateURLStmt = connection.prepareCall("CALL update_shortened_url(?, ?, ?)");
+                        updateURLStmt.setString(1, shortenedURL);
+                        updateURLStmt.setString(2, editedShortenedURL);
+                        updateURLStmt.setTimestamp(3, Timestamp.valueOf(gmt.toLocalDateTime()));
+                        updateURLStmt.executeUpdate();
+
                         response.sendRedirect("list");
                     }
                     else
