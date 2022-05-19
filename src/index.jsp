@@ -48,25 +48,16 @@
 		</div>
 
 		<div class="col-md-3 text-center account-head-dv">
-
 			<%
-				if(!(login))
-				{
-			%>
+				if (!login) { %>
 			<a href="login" class="account-head">Login</a> &nbsp; &nbsp; | &nbsp;&nbsp;
 			<a href="register" class="account-head">Sign Up</a>
 			<%
-				}
-				else {
-					out.println("<a href=\"myaccount\" class=\"account-head\">My Account</a> &nbsp; &nbsp; | &nbsp;&nbsp;");
-					out.println("<a href=\"logout\" class=\"account-head\"> Logout</a>");
-				}
-			%>
-
-
-
-
-
+			} else { %>
+			<a href="list" class="account-head">My Links</a> &nbsp; &nbsp; | &nbsp;&nbsp;
+			<a href="logout" class="account-head"> Logout</a>
+			<%
+				} %>
 		</div>
 	</div>
 </div>

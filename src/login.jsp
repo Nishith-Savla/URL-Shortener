@@ -40,7 +40,7 @@
         <div class="row align-items-center">
           <div class="col-md-12">
             <div class="media">
-                <a href="" class="">
+                <a href="/URL-Shortener/" class="">
                   <img src="src/main/webapp/img/big-logo.png" class="nav-img-login mx-auto d-block"/>
                 </a>
             </div>

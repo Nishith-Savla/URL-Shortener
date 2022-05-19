@@ -44,7 +44,7 @@
     <div class="row align-items-center">
         <div class="col-md-3">
             <div class="media">
-                <a href="" class="nav_thing"
+                <a href="/URL-Shortener/" class="nav_thing"
                 ><img src="src/main/webapp/img/big-logo.png" class="nav-img mx-auto d-block"
                 /></a>
             </div>
@@ -54,19 +54,16 @@
         </div>
         <div class="col-md-3 text-center account-head-dv">
 
-            <%
-                if (!(login)) {
-            %>
+         <%
+                if (!login) { %>
             <a href="login" class="account-head">Login</a> &nbsp; &nbsp; | &nbsp;&nbsp;
             <a href="register" class="account-head">Sign Up</a>
             <%
-                } else {
-                    out.println("<a href=\"myaccount\" class=\"account-head\">My Account</a> &nbsp; &nbsp; | &nbsp;&nbsp;");
-                    out.println("<a href=\"logout\" class=\"account-head\"> Logout</a>");
-                }
-            %>
-
-
+            } else { %>
+            <a href="list" class="account-head">My Links</a> &nbsp; &nbsp; | &nbsp;&nbsp;
+            <a href="logout" class="account-head"> Logout</a>
+            <%
+                } %>
         </div>
     </div>
 </div>

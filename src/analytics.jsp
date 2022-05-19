@@ -13,6 +13,10 @@
             }
         }
     }
+    if(!request.getParameterMap().containsKey("shortened"))
+    {
+        response.sendRedirect("list");
+    }
 %>
 <!DOCTYPE html>
 <html>
@@ -55,7 +59,7 @@
             <a href="register" class="account-head">Sign Up</a>
             <%
             } else { %>
-            <a href="myaccount" class="account-head">My Account</a> &nbsp; &nbsp; | &nbsp;&nbsp;
+            <a href="list" class="account-head">My Links</a> &nbsp; &nbsp; | &nbsp;&nbsp;
             <a href="logout" class="account-head"> Logout</a>
             <%
                 } %>
