@@ -1,24 +1,42 @@
+<%@ page contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" %>
 <%@ page import="java.sql.*" %>
-
+<%
+    boolean isLinkInUse = false;
+    boolean isLinkSame = false;
+    String errorMessage = "";
+    boolean login = false;
+    final Cookie[] login_cookies = request.getCookies();
+    if (login_cookies != null) {
+        for (Cookie login_cookie : login_cookies) {
+            if (login_cookie.getName().equals("EMAIL") && !login_cookie.getValue().equals("")) {
+                login = true;
+                break;
+            }
+        }
+    }
+%>
 <!DOCTYPE html>
 <html>
 <head>
     <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta charset="utf-8"/>
+    <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
 
     <!-- Bootstrap CSS v5.0.2 -->
-    <link rel="stylesheet" href="src/main/webapp/bootstrap/bootstrap.min.css"  >
+    <link rel="stylesheet" href="src/main/webapp/bootstrap/bootstrap.min.css">
 
-    <script src="src/main/webapp/bootstrap/bootstrap.bundle.min.js" ></script>
+    <script src="src/main/webapp/bootstrap/bootstrap.bundle.min.js"></script>
 
+    <link rel="stylesheet" href="src/main/webapp/style.css"/>
+
+    <title>Simple URL Shortener</title>
+
+    <link rel="icon" href="src/main/webapp/img/logo.png" type="image/icon type"/>
+    <%--      <script src="src/main/webapp/main.js" ></script>--%>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-    <link rel="stylesheet" href="src/main/webapp/style.css" />
-
-    <title>My URLS | Simple URL Shortener</title>
-
-    <link rel="icon" href="src/main/webapp/img/logo.png" type="image/icon type" />
 </head>
 <body>
 <!-- Start Of Header -->
@@ -32,19 +50,27 @@
             </div>
         </div>
         <div class="col-md-6 nav_thing text-center">
-            <a href="" class="nav_thing-center">Why Us?</a>
-            <a href="" class="nav_thing-center">Custom URL</a>
-            <a href="" class="nav_thing-center">Pricing</a>
-            <a href="" class="nav_thing-center">Contact Us</a>
+
         </div>
         <div class="col-md-3 text-center account-head-dv">
+
+            <%
+                if (!(login)) {
+            %>
             <a href="login" class="account-head">Login</a> &nbsp; &nbsp; | &nbsp;&nbsp;
             <a href="register" class="account-head">Sign Up</a>
+            <%
+                } else {
+                    out.println("<a href=\"myaccount\" class=\"account-head\">My Account</a> &nbsp; &nbsp; | &nbsp;&nbsp;");
+                    out.println("<a href=\"logout\" class=\"account-head\"> Logout</a>");
+                }
+            %>
+
+
         </div>
     </div>
 </div>
-<!-- End Of Header -->
-
+<%--End of Header--%>
 <!-- Start Of Main Body -->
 <div class="container url-list-outa">
     <div class="row align-items-center">
@@ -129,7 +155,7 @@
                                         <td class="table-cell" title="<%= rs.getString("original")%>" onclick="copy_to_clipboard(this)"><%= rs.getString("original")%></td>
                                         <td class="table-cell shortened-cell" id="shortened-<%= j %>" title="<%= url + "s/" + rs.getString("shortened")%>" onclick="copy_to_clipboard(this)"><%= url + "s/" + rs.getString("shortened")%></td>
                                         <td class="table-cell px-0 actions actions-cell">
-                                            <button class="btn list-btn"><i class="bi bi-files" onclick="copy_to_clipboard(document.getElementById('shortened-<%= j %>'))" ></i></button>
+                                            <button type="button" class="btn list-btn"><i class="bi bi-files" onclick="copy_to_clipboard(document.getElementById('shortened-<%= j %>'))" ></i></button>
                                             <form action="shorten" method="post" style="display: inline;">
                                                 <input type="hidden" name="originalURL" value="<%=rs.getString("original")%>">
                                                 <input type="hidden" name="shortenedURL" value="<%=rs.getString("shortened")%>">
@@ -138,6 +164,10 @@
                                             <form action="list" method="post" style="display: inline;">
                                                 <input type="hidden" name="delete-url" value="<%=rs.getString("shortened")%>">
                                                 <button type="submit" class="btn list-btn"><i class="bi bi-trash"></i></button>
+                                            </form>
+                                            <form action="analytics" method="post" style="display: inline;">
+                                                <input type="hidden" name="shortened" value="<%=rs.getString("shortened")%>">
+                                                <button type="submit" class="btn list-btn"><i class="bi bi-graph-up"></i></button>
                                             </form>
                                         </td>
                                     </tr><%

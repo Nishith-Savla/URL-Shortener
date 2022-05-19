@@ -69,11 +69,8 @@
     <div class="row align-items-center">
         <div class="col-md-2 left-menu">
             <ul class="nav nav-pills flex-column mt-4">
-                <li class="nav-item ">
-                    <a href="#" class="nav-link py-3">My Profile</a>
-                </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link py-3">My Links</a>
+                    <a href="list" class="nav-link py-3">My Links</a>
                 </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link py-3 active ">Analytics</a>
@@ -82,43 +79,52 @@
         </div>
         <div class="col-md-10">
             <div class="charts-body mx-4 p-3">
+                <%
+                    final String DB_USERNAME = System.getenv("MYSQL_USERNAME");
+                    final String DB_PASSWORD = System.getenv("MYSQL_PASSWORD");
+                    final String jdbcUrl = "jdbc:mysql://localhost:3306/urlshortener";
+
+                    final String shortened = request.getParameter("shortened");
+
+                    Class.forName("com.mysql.cj.jdbc.Driver");
+                    try (Connection connection = DriverManager.getConnection(jdbcUrl, DB_USERNAME, DB_PASSWORD)) {
+                        final PreparedStatement selectAnalyticsStmt = connection.prepareStatement("SELECT continent, browser, os, timestamp FROM analytics WHERE shortened_url = ?");
+                        selectAnalyticsStmt.setString(1, shortened);
+
+                        final ResultSet rs = selectAnalyticsStmt.executeQuery();
+                        HashMap<String, HashMap<String, Integer>> analyticsData = new HashMap<>();
+                        ResultSetMetaData metadata = rs.getMetaData();
+                        if (!rs.isBeforeFirst() )
+                        {
+                %>
+                            <div class="row text-center">
+                                <h1 class="no_views_heading">Nobody has viewed this page yet!!</h1>
+                            </div>
+                <%
+                        }
+                        else
+                        {
+                            while (rs.next()) {
+                                for (int i = 1; i <= metadata.getColumnCount(); ++i) {
+                                    final String columnName = metadata.getColumnName(i);
+
+                                    final String value = rs.getString(columnName);
+                                    int count = analyticsData.getOrDefault(columnName, new HashMap<String, Integer>()).getOrDefault(value, 0) + 1;
+                                    if (!analyticsData.containsKey(columnName)) {
+                                        analyticsData.put(columnName, new HashMap<String, Integer>());
+                                    }
+                                    analyticsData.get(columnName).put(value, count);
+                                }
+                            }
+                            request.setAttribute("data", new JSONObject(analyticsData).toString());
+                %>
                 <div class="row text-center">
+
                     <div class="col-md-4">
                         <h2 class="chart-header">Continent</h2>
                         <div class="chart-container">
                             <canvas id="continent" style=" width:100%; height: 100%;"></canvas>
-                            <%
-                                final String DB_USERNAME = System.getenv("MYSQL_USERNAME");
-                                final String DB_PASSWORD = System.getenv("MYSQL_PASSWORD");
-                                final String jdbcUrl = "jdbc:mysql://localhost:3306/urlshortener";
 
-                                final String shortened = request.getParameter("shortened");
-
-                                Class.forName("com.mysql.cj.jdbc.Driver");
-                                try (Connection connection = DriverManager.getConnection(jdbcUrl, DB_USERNAME, DB_PASSWORD)) {
-                                    final PreparedStatement selectAnalyticsStmt = connection.prepareStatement("SELECT continent, browser, os, timestamp FROM analytics WHERE shortened_url = ?");
-                                    selectAnalyticsStmt.setString(1, shortened);
-
-                                    final ResultSet rs = selectAnalyticsStmt.executeQuery();
-                                    HashMap<String, HashMap<String, Integer>> analyticsData = new HashMap<>();
-                                    ResultSetMetaData metadata = rs.getMetaData();
-                                    while (rs.next()) {
-                                        for (int i = 1; i <= metadata.getColumnCount(); ++i) {
-                                            final String columnName = metadata.getColumnName(i);
-
-                                            final String value = rs.getString(columnName);
-                                            int count = analyticsData.getOrDefault(columnName, new HashMap<String, Integer>()).getOrDefault(value, 0) + 1;
-                                            if (!analyticsData.containsKey(columnName)) {
-                                                analyticsData.put(columnName, new HashMap<String, Integer>());
-                                            }
-                                            analyticsData.get(columnName).put(value, count);
-                                        }
-                                    }
-                                    request.setAttribute("data", new JSONObject(analyticsData).toString());
-                                } catch (SQLException e) {
-                                    out.println("Error: " + e.getMessage());
-                                }
-                            %>
                             <script>
                                 const analytics = JSON.parse('<%= request.getAttribute("data") %>');
                                 console.log(analytics);
@@ -219,6 +225,7 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="row text-center">
                     <div class="col-md-12">
                         <div class="chart-container-visits pt-5">
@@ -273,6 +280,14 @@
 
                     </div>
                 </div>
+                <%
+                        }
+
+                    } catch (SQLException e) {
+                        out.println("Error: " + e.getMessage());
+                    }
+                %>
+
 
             </div>
         </div>

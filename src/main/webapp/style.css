@@ -318,3 +318,13 @@ body {
 {
   max-width: 20vw;
 }
+.actions-cell
+{
+  max-width: 10vw;
+}
+.no_views_heading
+{
+  font-family: "Bebas Neue";
+  font-size: 6vh;
+  color: #8946a6;
+}
