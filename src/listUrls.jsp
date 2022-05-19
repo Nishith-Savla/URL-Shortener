@@ -92,11 +92,10 @@
 
                         if (request.getMethod().equalsIgnoreCase("post")) { 
                             delete_url = request.getParameter("delete-url");
-                            pstmt = connection.prepareStatement("delete from urls where user_email =? and shortened =?");
-                            pstmt.setString(1, email_cookie);
-                            pstmt.setString(2, delete_url);
-                            
-                            int rows = pstmt.executeUpdate();
+                            final PreparedStatement deleteURLStmt = connection.prepareCall("CALL delete_shortened_url(?, ?)");
+                            deleteURLStmt.setString(1, email_cookie);
+                            deleteURLStmt.setString(2, delete_url);
+                            int rows = deleteURLStmt.executeUpdate();
 
                             if (rows != 0) { %>
                                 <script>
