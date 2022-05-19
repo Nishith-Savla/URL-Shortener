@@ -143,7 +143,7 @@
                       
                       </span>
                       <input class="form-control" type="text" id="editbox"  name="editedShortenedURL" value='<%= request.getParameter("shortenedURL") %>'  required/>
-                      <button class="btn px-2 edit-btn" title="copy" onclick='copy_to_clipboard("<%= request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath() + "/s/" %>","editbox")'>
+                      <button class="btn px-2 edit-btn" type="button" title="copy" onclick='copy_to_clipboard("<%= request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath() + "/s/" %>","editbox")'>
                         <i class="bi bi-files"></i>
                       </button>
 
