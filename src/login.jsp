@@ -1,3 +1,19 @@
+<%
+    Cookie cookie = null;
+    Cookie[] cookies = null;
+    cookies = request.getCookies();
+    if( cookies != null )
+    {
+        for (int i = 0; i < cookies.length; i++) {
+            cookie = cookies[i];
+            if (cookie.getName().equals("EMAIL") && cookie.getValue() != "") {
+                response.sendRedirect("/URL-Shortener");
+                break;
+            }
+        }
+    }
+
+%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -64,10 +80,16 @@
                         
                             <label for="password" class="form-label login-fm-lb">Password</label>
                             <input type="password" id="password" name="password"  class="form-control login-box" placeholder="Please Enter Your Password" aria-describedby="helpId" required>
+
                             <span>
                                 <i class="fas fa-eye" style="position:absolute; right:582px; bottom:262px;"
                                 onclick="toggle_password('password')"></i>
                             </span>
+                            <div class="login-fm-lk text-center">
+                                <a href="register" class="login-fm-lk">
+                                    Don't have an account? Sign Up.
+                                </a>
+                            </div>
                             
                             <button type="submit" class="btn login-sub">Submit</button>
                         </div>

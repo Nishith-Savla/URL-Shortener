@@ -1,3 +1,19 @@
+<%
+    Cookie cookie = null;
+    Cookie[] cookies = null;
+    cookies = request.getCookies();
+    if( cookies != null )
+    {
+        for (int i = 0; i < cookies.length; i++) {
+            cookie = cookies[i];
+            if (cookie.getName().equals("EMAIL") && cookie.getValue() != "") {
+                response.sendRedirect("/URL-Shortener");
+                break;
+            }
+        }
+    }
+
+%>
 <!DOCTYPE html>
 <html>
 
@@ -103,6 +119,12 @@
                             <i class="fas fa-eye" style="position:absolute; right:590px; bottom:26px;"
                             onclick="toggle_password('confirm_password')"></i>
                         </span>
+
+                        <div class="login-fm-lk text-center">
+                            <a href="login" class="login-fm-lk">
+                                Already have an account? Login.
+                            </a>
+                        </div>
 
                         <button type="submit" class="btn login-sub">Submit</button>
                     </div>

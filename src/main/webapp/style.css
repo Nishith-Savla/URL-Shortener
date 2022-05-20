@@ -328,3 +328,15 @@ body {
   font-size: 6vh;
   color: #8946a6;
 }
+.login-fm-lk, .login-fm-lk:hover
+{
+  font-family: "Barlow Condensed";
+  font-size: 3vh;
+  font-weight: bold;
+  color: #b762c1;
+  text-decoration: none;
+}
+.login-fm-lk:hover
+{
+  color: #ea99d5;
+}
