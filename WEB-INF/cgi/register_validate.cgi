@@ -1,13 +1,14 @@
 #!C:\xampp\perl\bin\perl.exe
 
+use warnings FATAL => 'all';
 use CGI ':standard';
 use CGI::Cookie;
 use Crypt::Eksblowfish::Bcrypt;
 use DBI;
 use strict;
-use constant NAME_REGEX => /^[a-zA-Z]+( [a-zA-Z]+)?$/;
-use constant EMAIL_REGEX => /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-use constant PASSWORD_REGEX => /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{8,})/;
+use constant NAME_REGEX => qr/^[a-zA-Z]+( [a-zA-Z]+)?$/;
+use constant EMAIL_REGEX => qr/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+use constant PASSWORD_REGEX => qr/(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{8,})/;
 
 my $name = param('name');
 my $email = param('email');
@@ -49,27 +50,89 @@ sub salt {
 my $encrypted_password = encrypt_password($password);
 
 if (!($name =~ NAME_REGEX)) {
-    print header;
-    print "Registration unsuccessful. Please enter a valid name containing only alphabets and spaces.";
+    print header, start_html;
+    print '<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>';
+    print "
+<script>
+    Swal.fire({
+            title: 'Registration unsuccessful.',
+            text: 'Please enter a valid name containing only alphabets and spaces.',
+            icon: 'error',
+    }).then(result => {
+        if (result.isConfirmed) {
+            location.replace('/URL-Shortener/register');
+        }
+    })
+
+</script>
+", end_html;
     return;
 }
 
 if (!($email =~ EMAIL_REGEX)) {
-    print header;
-    print "Registration unsuccessful. Please enter a valid email address.";
+    print header, start_html;
+    print '<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>';
+    print "
+<script>
+    Swal.fire({
+            title: 'Registration unsuccessful.',
+            text: 'Please enter a valid email address.',
+            icon: 'error',
+    }).then(result => {
+        if (result.isConfirmed) {
+            location.replace('/URL-Shortener/register');
+        }
+    })
+
+</script>
+", end_html;
     return;
 }
 
 if (!($password =~ PASSWORD_REGEX)) {
-    print header;
-    print "Registration unsuccessful. Please enter a password greater than 8 characters including atleast 1 uppercase, 1 lowercase, 1 digit and 1 special character.";
+    print header, start_html;
+    print '<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>';
+    print "
+<script>
+    Swal.fire({
+            title: 'Registration unsuccessful.',
+            text: 'Please enter a password greater than 8 characters including atleast 1 uppercase, 1 lowercase, 1 digit and 1 special character.',
+            icon: 'error',
+    }).then(result => {
+        if (result.isConfirmed) {
+            location.replace('/URL-Shortener/register');
+        }
+    })
+
+</script>
+", end_html;
     return;
 }
 
 my $con = DBI->connect('DBI:mysql:urlshortener:localhost', $ENV{MYSQL_USERNAME}, $ENV{MYSQL_PASSWORD});
 my $query= $con->prepare("INSERT INTO users VALUES(?, ?, ?)");
-my $result = $query->execute($email, $name, $encrypted_password);
+my $result;
+$result = $query->execute($email, $name, $encrypted_password) or $result = 0;
 $query->finish();
+if ($result == 0) {
+    print header, start_html(-title=>"Completing your registration....");
+    print '<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>';
+    print "
+<script>
+    Swal.fire({
+            title: 'Registration unsuccessful.',
+            text: `Email already registered. Try logging in...`,
+            icon: 'error',
+    }).then(result => {
+        if (result.isConfirmed) {
+            location.replace('/URL-Shortener/register');
+        }
+    })
+
+</script>
+", end_html;
+    return;
+}
 
 my $c = CGI::Cookie->new(
             -name    =>  'EMAIL',
@@ -78,10 +141,18 @@ my $c = CGI::Cookie->new(
             -samesite=>  "Lax"
         );
 
-print header(-cookie=>$c);
+print header(-cookie=>$c), start_html;
+print '<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>';
 print "
 <script>
-    alert(`Registration Successful.`);
-    location.replace('/URL-Shortener/');
+    Swal.fire({
+            title: 'Registration Succesful!',
+            icon: 'success',
+    }).then(result => {
+        if (result.isConfirmed) {
+            location.replace('/URL-Shortener/');
+        }
+    })
+
 </script>
-";
+", end_html;

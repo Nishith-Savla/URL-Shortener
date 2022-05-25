@@ -1,5 +1,6 @@
 #!C:\xampp\perl\bin\perl.exe
 
+use warnings;
 use CGI ':standard';
 use CGI::Cookie;
 use Crypt::Eksblowfish::Bcrypt;
@@ -28,7 +29,7 @@ sub encrypt_password {
 }
 
 # Check if the passwords match
-sub check_password {
+sub is_password_correct {
     my ($plain_password, $hashed_password) = @_;
     my ($salt) = split('-', $hashed_password, 2);
     return length $salt == 16 && encrypt_password($plain_password, $salt) eq $hashed_password;
@@ -50,25 +51,45 @@ my ($email_from_db, $password_from_db) = $select_query->fetchrow();
 
 $select_query->finish();
 
-if ($email_from_db ne $email) {
-    print header;
+if ($select_query->rows == 0 || $email_from_db ne $email) {
+    print header, start_html(-title=>"Logging you in....");
+    print '<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>';
     print "
-    <script>
-        alert(`Couldn't found record. Please register.`);
-        location.replace('/URL-Shortener/login');
-    </script>
-    ";
+<script>
+    Swal.fire({
+            title: 'Login unsuccessful.',
+            text: `Couldn't find record. Please register.`,
+            icon: 'error',
+    }).then(result => {
+        if (result.isConfirmed) {
+            location.replace('/URL-Shortener/login');
+        }
+    })
+
+</script>
+", end_html;
+    return;
 }
 
-if (!check_password($password, $password_from_db)) {
-    print header;
+if (!is_password_correct($password, $password_from_db)) {
+    print header, start_html(-title=>"Logging you in....");
+    print '<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>';
     print "
-    <script>
-        alert(`Login Unsuccessful. Invalid Password`);
-        location.replace('/URL-Shortener/login');
-    </script>
-    ";
-}    
+<script>
+    Swal.fire({
+            title: 'Login unsuccessful.',
+            text: 'Invalid Password.',
+            icon: 'error',
+    }).then(result => {
+        if (result.isConfirmed) {
+            location.replace('/URL-Shortener/login');
+        }
+    })
+
+</script>
+", end_html;
+    return;
+}
 
 my $c = CGI::Cookie->new(
                 -name    =>  'EMAIL',
@@ -77,11 +98,18 @@ my $c = CGI::Cookie->new(
                 -samesite=>  "Lax"
             );
 
-print header(-cookie=>$c);
-print "Login Successful";
+print header(-cookie=>$c), start_html(-title=>"Logging you in....");
+print '<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>';
 print "
 <script>
-    alert(`Login successful.`);
-    location.replace('/URL-Shortener/');
+    Swal.fire({
+            title: 'Login Successful!',
+            icon: 'success',
+    }).then(result => {
+        if (result.isConfirmed) {
+            location.replace('/URL-Shortener/');
+        }
+    })
+
 </script>
-";
+", end_html;

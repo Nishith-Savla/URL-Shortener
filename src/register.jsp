@@ -31,6 +31,8 @@
     <title>Simple URL Shortener</title>
 
     <link rel="icon" href="src/main/webapp/img/logo.png" type="image/icon type" />
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <script>
 
         function toggle_password(inputId) {
@@ -38,32 +40,49 @@
             element.getAttribute("type") === "password" ? element.setAttribute("type", "text") : element.setAttribute("type", "password");
         }
 
-        function validateForm() {
+        function validateForm(event) {
+            event.preventDefault();
             const name_regex = /^[a-zA-Z]+( [a-zA-Z]+)?$/;
             const email_regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
             const password_regex = /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{8,})/;
 
             if (!name_regex.test(myForm.name.value)) {
-                alert('Please enter a valid name(containing only alphabets and spaces).');
+                Swal.fire({
+                    title: 'Registration unsuccessful.',
+                    text: `Please enter a valid name(containing only alphabets and spaces).`,
+                    icon: 'error',
+                });
                 return false;
             }
 
             if (!email_regex.test(myForm.email.value)) {
-                alert('Please enter a valid email address.');
-                return false;
+                Swal.fire({
+                    title: 'Registration unsuccessful.',
+                    text: `Please enter a valid email address.`,
+                    icon: 'error',
+                });
+                return;
             }
 
             if (!password_regex.test(myForm.password.value)) {
-                alert('Please enter a password greater than 8 characters including atleast 1 uppercase, 1 lowercase, 1 digit and 1 special character.');
-                return false;
+                Swal.fire({
+                    title: 'Registration unsuccessful.',
+                    text: `Please enter a password greater than 8 characters including atleast 1 uppercase, 1 lowercase, 1 digit and 1 special character.`,
+                    icon: 'error',
+                });
+                return;
             }
 
-            if (myForm.password.value != myForm.confirm_password.value) {
-                alert('Passwords are not matching');
-                return false;
+            if (myForm.password.value !== myForm.confirm_password.value) {
+                Swal.fire({
+                    title: 'Registration unsuccessful.',
+                    text: `Passwords are not matching`,
+                    icon: 'error',
+                });
+                return;
             }
 
-            return true;
+            event.currentTarget.submit();
         }
     </script>
     
@@ -88,8 +107,7 @@
         <div class="row align-items-center">
             <div class="col-md-4"></div>
             <div class="col-md-4 ">
-                <form action="cgi-bin/register_validate.cgi" method="post" class="needs-validation"
-                    onsubmit="return validateForm()" name="myForm">
+                <form action="cgi-bin/register_validate.cgi" method="post" class="needs-validation" name="myForm">
                     <div class="my-5  px-5 login-fm">
                         <h1 class="login-header">
                             Sign Up
@@ -134,6 +152,10 @@
         </div>
     </div>
     <script src="https://kit.fontawesome.com/f1e397c55b.js" crossorigin="anonymous"></script>
+    <script>
+        const form = document.querySelector('form');
+        form.addEventListener('submit', validateForm);
+    </script>
     <!-- End of Login Form -->
 </body>
 
