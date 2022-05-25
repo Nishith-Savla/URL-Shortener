@@ -107,7 +107,7 @@
         <div class="row align-items-center">
             <div class="col-md-4"></div>
             <div class="col-md-4 ">
-                <form action="cgi-bin/register_validate.cgi" method="post" class="needs-validation" name="myForm">
+                <form action="URL-shortener/register_validate.cgi" method="post" class="needs-validation" name="myForm">
                     <div class="my-5  px-5 login-fm">
                         <h1 class="login-header">
                             Sign Up

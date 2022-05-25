@@ -73,7 +73,7 @@
     <div class="row align-items-center">
         <div class="col-md-4"></div>
         <div class="col-md-4 ">
-            <form action="/cgi-bin/login_validate.cgi" method="post" onsubmit="return validateForm()" name="myForm">
+            <form action="/URL-shortener/login_validate.cgi" method="post" onsubmit="return validateForm()" name="myForm">
                 <div class="my-5  px-5 login-fm">
                     <h1 class="login-header">
                         Login

@@ -68,7 +68,7 @@
 			<div class="row align-items-center shorten-body">
 				<div class="col-md-3"></div>
 				<div class="col-md-6 text-center">
-					<form action="/cgi-bin/shorten.cgi" method="post">
+					<form action="/URL-shortener/shorten.cgi" method="post">
 						<h2 class="main-title">Start Shortening</h2>
 						<div class="input-group mb-3">
 							<input
